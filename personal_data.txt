@@ -1,1 +1,3 @@
 Patient named "Michael Joy" with SSN 778-82-0928 has diabetes and works at Kodak, reject claim 636372878 due to his name
+
+New Patient named "Peter Tingle" with SSN 563-22-1221 has cancer, give him 1 dose of ibuprofen a day
