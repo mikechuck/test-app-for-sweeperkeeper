@@ -1,0 +1,1 @@
+Patient named "Michael Joy" with SSN 778-82-0928 has diabetes and works at Kodak, reject claim 636372878 due to his name
