@@ -1,0 +1,73 @@
+# Render Blueprint: three static sites, one per environment, each built from its own branch.
+#
+#   trialwise-dev   branch dev   https://trialwise-dev.onrender.com
+#   trialwise-uat   branch uat   https://trialwise-uat.onrender.com
+#   trialwise-prod  branch main  https://trialwise-prod.onrender.com
+#
+# Render never deploys on its own (autoDeployTrigger: off). GitHub Actions deploys each site after
+# its branch's tests pass, by calling that site's deploy hook (.github/workflows/deploy.yml).
+# Static sites are free on Render and separate from SweeperKeeper's services.
+
+services:
+  - type: web
+    runtime: static
+    name: trialwise-dev
+    branch: dev
+    autoDeployTrigger: "off"
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: TRIALWISE_ENV
+        value: dev
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+
+  - type: web
+    runtime: static
+    name: trialwise-uat
+    branch: uat
+    autoDeployTrigger: "off"
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: TRIALWISE_ENV
+        value: uat
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+
+  - type: web
+    runtime: static
+    name: trialwise-prod
+    branch: main
+    autoDeployTrigger: "off"
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: TRIALWISE_ENV
+        value: prod
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

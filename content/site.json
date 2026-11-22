@@ -1,0 +1,17 @@
+{
+  "company": "Trialwise",
+  "tagline": "Pharmaceutical intelligence for faster, better decisions",
+  "summary": "Trialwise is a life sciences and pharmaceutical intelligence company that helps biopharma businesses make faster, data-driven decisions across the entire drug development and commercialization lifecycle.",
+  "stages": [
+    { "id": "discovery", "name": "Discovery", "blurb": "Map competitive pipelines and spot white space before committing a program." },
+    { "id": "clinical", "name": "Clinical development", "blurb": "Benchmark trial design, enrollment and site performance against comparable studies." },
+    { "id": "regulatory", "name": "Regulatory", "blurb": "Track approvals, label changes and agency decisions as they happen." },
+    { "id": "launch", "name": "Launch", "blurb": "Size markets, model pricing and access, and plan a launch around real demand." },
+    { "id": "commercial", "name": "Commercial", "blurb": "Follow uptake, payer coverage and prescriber behaviour after launch." }
+  ],
+  "stats": [
+    { "value": "40K+", "label": "drug programs tracked" },
+    { "value": "120", "label": "markets covered" },
+    { "value": "Daily", "label": "data refresh" }
+  ]
+}

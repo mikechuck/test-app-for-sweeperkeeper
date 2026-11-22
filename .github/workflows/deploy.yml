@@ -1,0 +1,54 @@
+# Deploys an environment whenever its branch changes:
+#   dev  -> GitHub environment "dev"        -> Render site trialwise-dev
+#   uat  -> GitHub environment "uat"        -> Render site trialwise-uat
+#   main -> GitHub environment "production" -> Render site trialwise-prod
+#
+# Each GitHub environment holds its own RENDER_DEPLOY_HOOK secret, so the dev job can't deploy prod.
+# Because the deploy job names an environment, GitHub records a deployment for the commit; that's
+# how SweeperKeeper learns when a commit went live in each environment.
+name: Deploy
+
+on:
+  push:
+    branches: [dev, uat, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || github.ref_name }}
+      url: ${{ vars.SITE_URL }}
+    steps:
+      - name: Trigger the Render deploy
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::RENDER_DEPLOY_HOOK isn't set for this environment (see README)."
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST "$HOOK" > /dev/null
+          echo "Deploy of ${GITHUB_SHA::7} to ${{ github.ref_name }} started."
