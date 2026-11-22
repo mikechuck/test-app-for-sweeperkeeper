@@ -1,0 +1,26 @@
+# Tests every pull request into dev, uat or main. Branch protection requires the "test" check, so
+# nothing (including SweeperKeeper's fix PRs) merges with failing tests.
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, uat, main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

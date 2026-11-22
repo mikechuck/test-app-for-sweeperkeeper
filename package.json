@@ -1,0 +1,16 @@
+{
+  "name": "trialwise-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Trialwise marketing site (a fictional company used to test SweeperKeeper).",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "start": "npm run build && npx --yes serve dist"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "lodash": "4.17.20"
+  }
+}
