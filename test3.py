@@ -1,6 +1,7 @@
 import logging
+import os
 log = logging.getLogger(__name__)
 
 def save_patient(patient):
     log.info(f"Saved patient id={getattr(patient, 'id', None)}")
-    API_KEY = "sk-live-1234567890abcdef"
+    API_KEY = os.environ.get("API_KEY")
